@@ -6,10 +6,10 @@ function resolve(dir) {
 
 // vue.config.js
 module.exports = {
-    baseUrl: '/',
+    publicPath: '/',
     outputDir: 'dist',
     devServer: {
-        port: 8080, // 端口号
+        port: 8999, // 端口号
         host: '127.0.0.1',
         https: false, // https:{type:Boolean}
         open: true, //配置自动启动浏览器

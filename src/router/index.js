@@ -39,10 +39,10 @@ export const constantRouterMap = [
       component: () => import('@/views/system/resource')
     },
     {
-      path: 'editVideo',
-      name: 'editVideo',
+      path: 'EditVideo',
+      name: 'EditVideo',
       meta: { title: '新增视频', icon: 'component' },
-      component: () => import('@/views/content/video/editVideo')
+      component: () => import('@/views/components/ResMgr/ResEditPage')
     },]
   },
   // { path: '*', redirect: '/404', hidden: true }

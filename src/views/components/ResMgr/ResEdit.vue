@@ -28,6 +28,12 @@
                 </el-date-picker>
               </template>
               <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '13'">
+                <!--图片上传-->
+                <el-upload class="upload-demo" :data="queryData" :on-preview="onPreview" :on-remove="onFileRemove" show-file-list :auto-upload="false" ref="upload" action="/api/util/uploadFile" :file-list="dropDownListData[item.COLUMN_NAME]">
+                  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                </el-upload>
+              </template>
+              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '14'">
                 <!--附件上传-->
                 <el-upload class="upload-demo" :data="queryData" :on-preview="onPreview" :on-remove="onFileRemove" show-file-list :auto-upload="false" ref="upload" action="/api/util/uploadFile" :file-list="dropDownListData[item.COLUMN_NAME]">
                   <el-button slot="trigger" size="small" type="primary">选取文件</el-button>

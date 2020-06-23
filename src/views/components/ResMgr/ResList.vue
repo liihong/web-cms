@@ -57,7 +57,7 @@ event:{
         </template>
       </el-table-column>
       <slot name="operate" />
-      <el-table-column fixed label="操作" width="150" align="center" v-if="!noEdit">
+      <el-table-column fixed="right" label="操作" width="150" align="center" v-if="!noEdit">
         <template slot-scope="scope">
           <el-button-group size="mini">
             <el-button size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>

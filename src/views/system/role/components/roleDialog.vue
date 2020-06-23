@@ -34,7 +34,7 @@ export default {
       let roles = await services.getResByRoleId({
         id: this.dialogState.ssbz
       })
-      if (roles.errno == 0) {
+      if (roles.status == 0) {
         let arr = []
         roles.data.map(item => {
           arr.push(item.resId)
@@ -43,7 +43,7 @@ export default {
       }
 
       let res = await services.getTreeList()
-      if (res.errno == 0) {
+      if (res.status == 0) {
         this.data = formatTreeData(res.data, 'resId', 'parentId')
       }
     },
