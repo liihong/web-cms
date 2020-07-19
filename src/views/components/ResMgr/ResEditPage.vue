@@ -213,7 +213,7 @@ export default {
     // 删除文件
     onFileRemove(file) {
       this.queryData.id = file.id;
-      resMgrServices.DeleteForeingDataById(this.queryData).then(res => {
+      resMgrServices.DeleteForeingDataById(this.queryData).then(() => {
         this.$message.success("删除文件成功");
       });
     },

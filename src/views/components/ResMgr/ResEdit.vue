@@ -156,7 +156,7 @@ export default {
     onFileRemove(file) {
       this.queryData.id = file.id
       resMgrServices.DeleteForeingDataById(this.queryData)
-        .then(res => {
+        .then(() => {
           this.$message.success('删除文件成功')
         })
     },

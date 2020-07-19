@@ -423,7 +423,7 @@ export default {
       });
       return data;
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName({ row }) {
       if (row.SPZT && row.SPZT == 0) {
         return "warning-row";
       }

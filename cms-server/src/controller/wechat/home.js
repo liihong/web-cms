@@ -7,33 +7,33 @@ module.exports = class extends Base {
   /**
    * 获取首页所需数据
    */
-  async getHomeDataAction(){
-      
-    //banner数据
-    const bannerList = await this.model('wechat_images').where({
-        type:'BANNER'
-    }).select()
+  async getHomeDataAction() {
+    // const {lon, lat} = this.get();
+    // banner数据
+    const bannerList = await this.model('wechat_banner').where({
+      banner_status: 1
+    }).select();
 
-    //栏目数据
+    // 栏目数据
     const orgTypeList = await this.model('resource_type').where({
-        status:1
-    }).select()
+      type_status: 1
+    }).select();
 
-    //热门课程列表数据
+    // 热门课程列表数据
     const classList = await this.model('wechat_class').where({
-        ishot:1
-    }).select()
+      class_isHot: 1
+    }).select();
 
-    //首页热门机构数据
+    // 首页热门机构数据
     const orgList = await this.model('wechat_orgs').where({
-        ishot:1
-    }).select()
+      org_isHot: 1
+    }).select();
 
     return this.success({
       bannerList,
       orgTypeList,
       classList,
       orgList
-    })
+    });
   }
 };

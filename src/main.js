@@ -5,6 +5,7 @@ import store from './store'
 import ElementUI from 'element-ui'
 import '@/styles/element-ui.scss'
 import '@/styles/index.scss' // global cs
+import '@/styles/reset.css' // global cs
 
 import '@/icons' // icon
 import '@/permission' // permission control
