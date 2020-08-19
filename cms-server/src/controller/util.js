@@ -1,5 +1,4 @@
-import { debug } from 'util';
-
+import util from '../../utils/util';
 const Base = require('./base.js');
 const fs = require('fs');
 const path = require('path');
@@ -7,6 +6,9 @@ const path = require('path');
 module.exports = class extends Base {
   // 上传图片
   async uploadAction() {
+    if (!this.file('file')) {
+      return this.fail(500, '文件选择出错');
+    }
     const themefile = this.file('file');
     const filepath = themefile.path;// 为防止上传的时候因文件名重复而覆盖同名已上传文件，path是MD5方式产生的随机名称
     const uploadpath = think.ROOT_PATH + '/../public/upload/';

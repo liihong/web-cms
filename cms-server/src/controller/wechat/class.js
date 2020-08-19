@@ -57,8 +57,8 @@ module.exports = class extends Base {
 
   // 根据课程ID获取课程详情
   async getClassDetailByIdAction() {
-    const classId = this.get('id');
-    const token = this.get('userId');
+    const classId = this.get('id') || '';
+    const token = this.get('userId') || '';
 
     // try {
     const isCollect = await this.model('wechat_user_collect').where({class_id: classId, user_id: token}).select();
@@ -76,7 +76,7 @@ module.exports = class extends Base {
 
   // 获取用户收藏课程列表
   async getUserCollectAction() {
-    const token = this.get('token');
+    const token = this.get('userId');
 
     const data = await this.model('wechat_class').join('wechat_user_collect on wechat_user_collect.user_id =' + token).select();
 
@@ -101,6 +101,9 @@ module.exports = class extends Base {
       class_id: classId,
       user_id: userId
     };
+    if (userId === '') {
+      return this.fail(500, '用户ID为空');
+    }
     try {
       // 0 取消收藏  1 收藏
       if (Number(status) === 0) {
