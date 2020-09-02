@@ -11,7 +11,10 @@
     "lint-fix": "eslint --fix src/"
   },
   "dependencies": {
+    "axios": "^0.20.0",
+    "crypto": "^1.0.1",
     "excel-export": "^0.5.1",
+    "moment": "^2.27.0",
     "think-cache": "^1.0.0",
     "think-cache-file": "^1.0.8",
     "think-logger3": "^1.0.0",
@@ -21,7 +24,8 @@
     "think-session-file": "^1.0.5",
     "think-view": "^1.0.0",
     "think-view-nunjucks": "^1.0.1",
-    "thinkjs": "^3.2.8"
+    "thinkjs": "^3.2.8",
+    "xml2json": "^0.12.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

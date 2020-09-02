@@ -1,5 +1,5 @@
-import util from '../../utils/util';
-const Base = require('./base.js');
+import util from '../../../utils/util';
+const Base = require('../base.js');
 const nodeExcel = require('excel-export'); // 首先，引入excel模块：
 
 module.exports = class extends Base {

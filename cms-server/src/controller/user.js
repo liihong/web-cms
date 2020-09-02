@@ -69,7 +69,7 @@ module.exports = class extends Base {
   async infoAction() {
     try {
       const userData = await this.model(userModel).where({
-        id: this.header('token')
+        id: this.get('token')
       }).find();
       // 获取用户权限
       // if(data.roles) {

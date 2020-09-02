@@ -36,4 +36,10 @@ module.exports = class extends Base {
       orgList
     });
   }
+
+  async getIsShowVideoAction() {
+    const data = await this.model('system_dictionaries').where({id: 1}).find();
+
+    return this.success(data);
+  }
 };

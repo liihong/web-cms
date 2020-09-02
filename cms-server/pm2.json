@@ -2,7 +2,7 @@
   "apps": [{
     "name": "cms-server",
     "script": "production.js",
-    "cwd": "/Users/lh/Desktop/windows/许昌电台/Project/web-cms/cms-server",
+    "cwd": "/home/ltlx/cms-server",
     "exec_mode": "fork",
     "max_memory_restart": "1G",
     "autorestart": true,

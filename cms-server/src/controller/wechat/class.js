@@ -78,7 +78,7 @@ module.exports = class extends Base {
   async getUserCollectAction() {
     const token = this.get('userId');
 
-    const data = await this.model('wechat_class').join('wechat_user_collect on wechat_user_collect.user_id =' + token).select();
+    const data = await this.model('wechat_class').join(`wechat_user_collect on wechat_class.id=wechat_user_collect.class_id where wechat_user_collect.user_id ='${token}'`).select();
 
     return this.success(data);
   }

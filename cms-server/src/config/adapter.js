@@ -36,13 +36,14 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'catcms',
+    database: 'ltlx',
     // prefix: 'cms_',
     encoding: 'utf8',
-    host: '127.0.0.1',
+    // host: '127.0.0.1',
+    host: '39.105.92.93',
     port: '3306',
-    user: 'root',
-    password: 'root@123',
+    user: 'ltlx',
+    password: 'ltlx@123',
     dateStrings: true
   }
 };
