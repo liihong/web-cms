@@ -29,7 +29,7 @@ format.menuRouterData = function (menuData) {
             if (item.resId == child.parentId) {
                 routerObj.children.push({
                     path: '/' + child.resKey,
-                    meta: {title: child.resName,icon: child.icon },
+                    meta: {title: child.resName,icon: child.icon,isMenu: child.ismenu },
                     name: child.resKey,
                     component: () => import(`@/views/${child.path}`)
                 })

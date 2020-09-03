@@ -14,8 +14,6 @@ import VueI18n from 'vue-i18n'
 // 引用三种语言
 import zhCN from './lang/zh'
 import en from './lang/en'
-import xengine from '../node_modules/engine-zkty/src/index.js'
-console.log(xengine)
 
 
 Vue.use(VueI18n)
@@ -26,7 +24,6 @@ import ResList from './views/components/ResMgr/ResList.vue'
 Vue.component('ResList',ResList)
 import ResEdit from './views/components/ResMgr/ResEdit.vue'
 Vue.component('ResEdit',ResEdit)
-Vue.prototype.$engine = xengine
 Vue.config.productionTip = false
 
 const i18n = new VueI18n({

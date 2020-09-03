@@ -66,28 +66,29 @@ event:{
         </template>
       </el-table-column>
       <el-table-column
-        :sortable="row.IS_SORT == '1' ? 'custom' : false"
+        :sortable="row.is_sort == '1' ? 'custom' : false"
         align="center"
-        v-if="row.PROPERTY_TYPE != '10'"
+        v-if="row.property_type != '10'"
         v-for="(row,index) in resRows"
         :key="index"
-        :prop="row.COLUMN_NAME"
-        :fixed="(row.IS_FROZEN == 1?'left':false)"
-        :label="row.COLUMN_CNAME"
-        :min-width="(row.COLUMNLENGTH != '')?row.COLUMNLENGTH:150"
+        :prop="row.column_name"
+        :fixed="(row.is_frozen == 1?'left':false)"
+        :label="row.column_cname"
+        :min-width="(row.column_length != '')?row.column_length:150"
       >
         <!-- :filters="row.PROPERTY_TYPE =='2'?[]:selectObj[row.COLUMN_NAME] " -->
         <template slot-scope="scope">
-          <span v-if="row.PROPERTY_TYPE == '2'">
-            <slot :name="row.COLUMN_NAME" v-bind:row="scope.row">
+          <span v-if="row.property_type == '2'">
+            <slot :name="row.column_name" v-bind:row="scope.row">
               <!-- 后备内容 -->
-              {{scope.row[`${row.COLUMN_NAME}_TEXT`]}}
+              {{scope.row[`${row.column_name}_TEXT`]}}
             </slot>
           </span>
+          <img width="50" v-else-if="row.property_type == '13'" :src="scope.row[row.column_name]" />
           <span v-else>
-            <slot :name="row.COLUMN_NAME" v-bind:row="scope.row">
+            <slot :name="row.column_name" v-bind:row="scope.row">
               <!-- 后备内容 -->
-              {{scope.row[row.COLUMN_NAME]}}
+              {{scope.row[row.column_name]}}
             </slot>
           </span>
         </template>
@@ -195,8 +196,8 @@ export default {
     //获取过滤数据
     getSelectQuery() {
       this.resRows.map(item => {
-        if (item.PROPERTY_TYPE == "2") {
-          this.getSjzdData(item.COLUMN_NAME, item.TYPESQL);
+        if (item.property_type == "2") {
+          this.getSjzdData(item.column_name, item.typesql);
         }
       });
     },
