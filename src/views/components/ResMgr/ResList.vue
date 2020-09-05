@@ -51,7 +51,7 @@ event:{
       style="width: 100%;"
     >
       <el-table-column type="selection" width="25" align="center"></el-table-column>
-      <el-table-column fixed="left" type="index" width="35" align="center">
+      <el-table-column fixed="left" type="index" width="40" align="center" label="序号">
         <template slot-scope="scope">
           <span>{{scope.$index+(queryParams.pageNumber - 1) * queryParams.pageSize + 1}}</span>
         </template>
@@ -184,8 +184,8 @@ export default {
     primaryKey() {
       let key = "";
       this.resRows.map(item => {
-        if (item.PROPERTY_TYPE == "10") {
-          key = item.COLUMN_NAME;
+        if (item.property_type == "10") {
+          key = item.column_name;
         }
       });
       return key;

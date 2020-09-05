@@ -3,48 +3,48 @@
     <el-dialog append-to-body  :width="width" size="small" :title="optionType == 'add' ? '新增' : '编辑'" :visible.sync="dialogState.show" :close-on-click-modal="false">
       <el-form class="form" :rules="rules" :inline="true" ref="form" :model="formData" label-width="120px" label-position="right" size="small">
         <el-row>
-          <el-col :span="12" v-show="item.PROPERTY_TYPE !== '10'" v-for="(item,i) in columnData" :key="i" class="item">
-            <el-form-item :label="item.COLUMN_CNAME" :prop="item.COLUMN_NAME" style="width:100%">
+          <el-col :span="12" v-show="item.property_type !== '10'" v-for="(item,i) in columnData" :key="i" class="item">
+            <el-form-item :label="item.column_cname" :prop="item.column_name" style="width:100%">
               <!--主键-->
-              <template v-if="item.PROPERTY_TYPE == '10'">
-                <span v-show="false">{{formData[item.COLUMN_NAME]}}</span>
+              <template v-if="item.property_type == '10'">
+                <span v-show="false">{{formData[item.column_name]}}</span>
               </template>
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '2'">
+              <template style="width:100%" v-else-if="item.property_type == '2'">
                 <!--下拉选择-->
-                <el-select @change="$emit('selectChange',formData)" style="width:100%" clearable filterable v-model="formData[item.COLUMN_NAME]">
-                  <el-option v-for="(item,key) in dropDownListData[item.COLUMN_NAME]" :key="key" :label="item.NAME?item.NAME:item.name" :value="item.id"></el-option>
+                <el-select @change="$emit('selectChange',formData)" style="width:100%" clearable filterable v-model="formData[item.column_name]">
+                  <el-option v-for="(item,key) in dropDownListData[item.column_name]" :key="key" :label="item.NAME?item.NAME:item.name" :value="item.id"></el-option>
                 </el-select>
               </template>
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '4'">
+              <template style="width:100%" v-else-if="item.property_type == '4'">
                 <!--数据字典-->
-                <el-select @change="$emit('selectChange',formData)" style="width:100%" v-model="formData[item.COLUMN_NAME.toLowerCase()]">
-                  <el-option v-for="(item,key) in dropDownListData[item.COLUMN_NAME]" :key="key" :label="item.NAME?item.NAME:item.name" :value="item.id"></el-option>
+                <el-select @change="$emit('selectChange',formData)" style="width:100%" v-model="formData[item.column_name.toLowerCase()]">
+                  <el-option v-for="(item,key) in dropDownListData[item.column_name]" :key="key" :label="item.NAME?item.NAME:item.name" :value="item.id"></el-option>
                 </el-select>
               </template>
 
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '5'">
+              <template style="width:100%" v-else-if="item.property_type == '5'">
                 <!--日期-->
-                <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData[item.COLUMN_NAME]" type="date" placeholder="选择日期">
+                <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData[item.column_name]" type="date" placeholder="选择日期">
                 </el-date-picker>
               </template>
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '13'">
+              <template style="width:100%" v-else-if="item.property_type == '13'">
                 <!--图片上传-->
                 <el-upload class="upload-demo" :data="queryData" :on-preview="onPreview" :on-remove="onFileRemove" show-file-list :auto-upload="false" ref="upload" action="/api/util/uploadFile" :file-list="dropDownListData[item.COLUMN_NAME]">
                   <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                 </el-upload>
               </template>
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '14'">
+              <template style="width:100%" v-else-if="item.property_type == '14'">
                 <!--附件上传-->
                 <el-upload class="upload-demo" :data="queryData" :on-preview="onPreview" :on-remove="onFileRemove" show-file-list :auto-upload="false" ref="upload" action="/api/util/uploadFile" :file-list="dropDownListData[item.COLUMN_NAME]">
                   <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                 </el-upload>
               </template>
-              <template style="width:100%" v-else-if="item.PROPERTY_TYPE == '6'">
+              <template style="width:100%" v-else-if="item.property_type == '6'">
                 <!--文本域-->
-               <el-input  type="textarea"  width="width:100%" v-model="formData[(item.COLUMN_NAME)]"></el-input>
+               <el-input  type="textarea"  width="width:100%" v-model="formData[(item.column_name)]"></el-input>
               </template>
               <template style="width:100%" v-else>
-                <el-input width="width:100%" v-model="formData[(item.COLUMN_NAME)]"></el-input>
+                <el-input width="width:100%" v-model="formData[(item.column_name)]"></el-input>
               </template>
               <!-- </el-col> -->
             </el-form-item>
@@ -124,7 +124,7 @@ export default {
       } else {
         // 新增
         resMgrServices.addTableData(params).then(res => {
-          if (res && res.errno == 0) {
+          if (res && res.status == 0) {
             this.$message.addSuccess()
             if (this.$refs['upload']) {
               this.queryData.query = res.data['id']
@@ -216,24 +216,24 @@ export default {
           this.getConfig().then(() => {
             this.columnData.forEach(item => {
               // 如果是字典字段需要翻译
-              if (item.PROPERTY_TYPE == '2' || item.PROPERTY_TYPE == '4') {
-                vm.getSjzdData(item.COLUMN_NAME, item.TYPESQL)
+              if (item.property_type == '2' || item.property_type == '4') {
+                vm.getSjzdData(item.column_name, item.type_sql)
               }
               // 如果是外表关联字段，则需要查询外表数据
-              if (item.PROPERTY_TYPE == '13') {
+              if (item.property_type == '13') {
                 vm.isUpload = true
                 vm.queryData = {
                   tableId: this.tableId,
-                  column_name: item.COLUMN_NAME,
-                  type: item.COLUMN_NAME
+                  column_name: item.column_name,
+                  type: item.column_name
                 }
               }
-              if (item.PROPERTY_TYPE == '10') {
-                this.primaryKey.name = item.COLUMN_NAME
+              if (item.property_type == '10') {
+                this.primaryKey.name = item.column_name
               }
               if(item.ISMUST == '1') {
                 // this.rules[item.COLUMN_NAME] = [{ required: true, message: `请输入${item.COLUMN_CNAME}`, trigger: 'blur' }]
-                this.$set(this.rules,item.COLUMN_NAME,[{ required: true, message: `请输入${item.COLUMN_CNAME}`, trigger: 'blur' }])
+                this.$set(this.rules,item.column_name,[{ required: true, message: `请输入${item.column_cname}`, trigger: 'blur' }])
               }
             })
           })

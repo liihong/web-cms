@@ -14,7 +14,7 @@
                         <el-button @click="change2Text(index)">A</el-button>
                         <el-upload :data="{index: index}"
                             class="el-button"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="/api/util/upload"
                             :show-file-list="false"
                             :on-success="handleUploadSuccess" 
                             :before-upload="beforeImageUpload" titlr="只能上传jpg/png文件，且不超过2M">
@@ -120,10 +120,12 @@ export default {
         }
     },
     mounted () {
+      if(this.contentList.length>0){
         this.contentList = this.contents.map(el => {
             el.visible = false;
             return el;
         });
+      }
     }
 }
 </script>

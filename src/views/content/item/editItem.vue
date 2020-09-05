@@ -36,8 +36,8 @@
           </el-col>
         </el-form-item>
         <el-form-item label="项目图片">
-          <el-upload class="avatar-uploader"
-                     action="https://jsonplaceholder.typicode.com/posts/"
+          <el-upload ref="upload" class="avatar-uploader"
+                     action="/api/util/upload"
                      :show-file-list="false"
                      :on-success="handleAvatarSuccess"
                      :before-upload="beforeAvatarUpload">
@@ -54,7 +54,7 @@
         <el-form-item label="联系地址">
           <el-input v-model="form.address"></el-input>
         </el-form-item>
-        <el-form-item label="是否热推">
+        <el-form-item label="是否推荐">
           <el-radio-group v-model="form.item_istop">
             <el-radio label="是"></el-radio>
             <el-radio label="否"></el-radio>
@@ -64,7 +64,7 @@
           <el-input v-model="form.item_shop"></el-input>
         </el-form-item>
         <el-form-item label="图文详情">
-          <el-input v-model="form.item_desc"></el-input>
+          <WechatEdit/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary"
@@ -77,7 +77,12 @@
 </template>
 
 <script>
+import WechatEdit from '@/components/WechatEdit/index.vue'
+
 export default {
+  components:{
+    WechatEdit
+  },
   data () {
     return {
       form: {
@@ -101,7 +106,13 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('submit!');
+      this.$refs.upload.submit()
+    },
+    beforeAvatarUpload(){
+
+    },
+    handleAvatarSuccess(){
+
     }
   }
 }

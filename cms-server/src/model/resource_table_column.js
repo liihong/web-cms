@@ -21,7 +21,7 @@ module.exports = class extends think.Model {
       table_id: tableId,
       property_type: '10'
     };
-    const data = await this.field(['column_name,column_cname,data_type,isunique,property_type,type_sql'])
+    const data = await this.field(['column_name,column_cname,data_type,is_unique,property_type,type_sql'])
       .where(whereObj).find();
     return data;
   }

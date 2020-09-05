@@ -188,8 +188,8 @@ module.exports = class extends Base {
       const form = this.post('form');
       // 获取主键
       const primaryKey = await this.model('resource_table_column').getPrimaryKey(tableId);
-      let idKey = '',
-        primaryKeyValue = '';
+      let idKey = '';
+      let primaryKeyValue = '';
 
       if (JSON.stringify(primaryKey) != '{}') {
         const sql = 'select ' + primaryKey.typesql + ' Id from dual';

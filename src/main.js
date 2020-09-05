@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import '@/styles/element-ui.scss'
 import '@/styles/index.scss' // global cs
 import '@/styles/reset.css' // global cs
+import message from '@/utils/message'
 
 import '@/icons' // icon
 import '@/permission' // permission control
@@ -25,6 +26,8 @@ Vue.component('ResList',ResList)
 import ResEdit from './views/components/ResMgr/ResEdit.vue'
 Vue.component('ResEdit',ResEdit)
 Vue.config.productionTip = false
+
+Vue.prototype.$message = message
 
 const i18n = new VueI18n({
   locale: 'zh',  // 语言标识
