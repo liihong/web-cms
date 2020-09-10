@@ -132,13 +132,13 @@ export default {
 <style scoped>
 .editor-viewer {
     width: 600px;
-    height: 600px;
+    height: 300px;
     border: 1px solid #ddd;
     position: relative;
 }
 .content-viewer {
     width: 100%;
-    height: 552px;
+    height: 352px;
     overflow-y: scroll;
     overflow-x: hidden;
 }

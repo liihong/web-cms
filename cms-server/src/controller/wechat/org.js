@@ -1,4 +1,5 @@
 const Base = require('../base.js');
+const util = require('../../../utils/util');
 
 module.exports = class extends Base {
   async indexAction() {
@@ -31,6 +32,15 @@ module.exports = class extends Base {
 
   async getOrgTypeListAction() {
     const data = await this.model('resource_type').field('id,type_name').select();
+    return this.success(data);
+  }
+
+  async addOrgAction() {
+    const form = this.post();
+
+    form.id = util.getUUId();
+    const data = await this.model('wechat_orgs').add(form);
+
     return this.success(data);
   }
 };

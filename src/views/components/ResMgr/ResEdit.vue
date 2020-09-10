@@ -1,6 +1,6 @@
 <template>
   <div class="resEdit">
-    <el-dialog append-to-body  :width="width" size="small" :title="optionType == 'add' ? '新增' : '编辑'" :visible.sync="dialogState.show" :close-on-click-modal="false">
+    <el-dialog append-to-body  :width="width" size="small" :title="optionType == 'add' ? '新增' : '编辑'" :visible.sync="dialogState.show" v-if="dialogState.show" :close-on-click-modal="false">
       <el-form class="form" :rules="rules" :inline="true" ref="form" :model="formData" label-width="120px" label-position="right" size="small">
         <el-row>
           <el-col :span="12" v-show="item.property_type !== '10'" v-for="(item,i) in columnData" :key="i" class="item">

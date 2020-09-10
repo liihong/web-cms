@@ -154,3 +154,15 @@ export function arrGroupBy (array, fun) {
   })
   return newArr
 }
+
+/**
+ * 判断字符串是否为空
+ * @param {*} str 
+ */
+export function isNotEmpty(str) {
+  let flag = false
+  if (str != null && str != undefined && str != '' && str != 'null') {
+    flag = true
+  }
+  return flag
+}

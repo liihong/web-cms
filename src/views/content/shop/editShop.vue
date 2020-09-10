@@ -42,9 +42,9 @@
                        action="/api/util/upload"
                        :show-file-list="false"
                        :on-success="handleAvatarSuccess">
-              <img v-if="form.shop_img"
+              <img v-if="form.shop_img" width="200" height="200"
                    :src="form.shop_img"
-                   class="avatar">
+                   class="avatar" />
               <i v-else
                  class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -103,6 +103,7 @@ export default {
         shop_type: '',
         shop_desc: '',
         shop_num: '',
+        shop_img: '',
         shop_time: '',
         shop_address: '',
         shop_phone: '',
@@ -147,6 +148,7 @@ export default {
       this.$refs[formName].resetFields();
     },
     handleAvatarSuccess (response) {
+      console.log(response.data.path)
       this.form.shop_img = response.data.path
     }
   }
