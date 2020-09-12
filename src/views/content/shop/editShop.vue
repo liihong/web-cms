@@ -1,12 +1,12 @@
 <template>
   <div style="margin:30px;">
-    <el-dialog 
+    <!-- <el-dialog 
       :modal-append-to-body=false
       :title="`${type == 'add' ? '新建' : '编辑'}商家`"
       v-bind="$attrs"
       width="50%"
       :close-on-click-modal="false"
-      v-on="$listeners">
+      v-on="$listeners"> -->
       <el-row>
       <el-col :span="14">
         <el-form ref="form"
@@ -73,12 +73,12 @@
           <el-form-item>
             <el-button type="primary"
                        @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="onCancel">取消</el-button>
           </el-form-item>
         </el-form>
       </el-col>
       </el-row>
-    </el-dialog>
+    <!-- </el-dialog> -->
 
   </div>
 </template>
@@ -150,6 +150,9 @@ export default {
     handleAvatarSuccess (response) {
       console.log(response.data.path)
       this.form.shop_img = response.data.path
+    },
+    onCancel(){
+      this.$router.go(-1)
     }
   }
 }

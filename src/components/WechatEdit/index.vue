@@ -116,7 +116,7 @@ export default {
             this.spliceContent(index, 1, item);
         },
         finishEdit () {
- 
+          this.$emit('getContent', this.contentList)
         }
     },
     mounted () {

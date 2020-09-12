@@ -1,5 +1,5 @@
 <template>
-  <textarea :id='id' :value='value'></textarea>
+  <textarea style="width:100%" :id='id' :value='value'></textarea>
 </template>
 
 <script>
@@ -27,11 +27,11 @@
       },
       setting: {},
       url: { // 接口
-        default: '',
+        default: '/api/util/upload',
         type: String
       },
       accept: { // 文件类型
-        default: 'image/jpeg, image/png',
+        default: 'image/jpeg, image/png, image/gif',
         type: String
       },
       maxSize: { // 大小
@@ -45,7 +45,6 @@
     },
     watch: {
       value: function(val) {
-        console.log('init ' + val)
         if (this.status === INIT || tinymce.activeEditor.getContent() !== val) {
           tinymce.activeEditor.setContent(val)
         }

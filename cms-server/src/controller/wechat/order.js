@@ -1,6 +1,5 @@
 const Base = require('../base.js');
 const util = require('../../../utils/util');
-const https = require('https');
 
 module.exports = class extends Base {
   async indexAction() {
@@ -30,6 +29,25 @@ module.exports = class extends Base {
     return this.success(data);
   }
 
+  async getOrderDetailAction() {
+    const orderId = this.get('id');
+    const whereObj = { id: orderId };
+    const data = await this.model('wechat_orders').join({ table: 'wechat_items', join: 'left', on: ['order_item', 'id'] }).where(whereObj).select();
+    return this.success(data);
+  }
+
+  // 更新订单状态
+  async updateOrderStatusAction() {
+    const orderId = this.post('id');
+    const status = this.post('status');
+    const whereObj = { id: orderId };
+    await this.model('wechat_orders').where(whereObj).update({order_status: status});
+    const data = this.model('wechat_orders').where(whereObj).find();
+    await this.model('wechat_items').where({id: data.order_item}).increment('item_num', 1);
+
+    return this.success(data);
+  }
+
   // 用户支付
   async getPayNoticeAction() {
     console.log(this.get());
@@ -45,7 +63,7 @@ module.exports = class extends Base {
       // 商户号
       mch_id: wechatConfig.mchid,
       // 交易密钥
-      key: wechatConfig.secret,
+      key: wechatConfig.key,
       // 用户的openid,至于如何拿到是公众号开发的那部分，这里不描述了。
       openid: openId
     });

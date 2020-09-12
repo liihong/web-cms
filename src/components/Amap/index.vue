@@ -35,7 +35,7 @@ export default {
             positionPicker.start(map.getBounds().getSouthWest())
             //TODO:事件绑定、结果处理等
             positionPicker.on('success', function(positionResult) {
-              that.$emit('getPosition', positionResult.position)
+              that.$emit('getPosition', positionResult)
             })
             that.map = map
           })

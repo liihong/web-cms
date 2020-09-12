@@ -42,7 +42,6 @@ module.exports = class extends think.Service {
       return item.name + '=' + item.value;
     }).join('&');
     str += '&key=' + key;
-    console.log(str);
     // 做md5
     return crypto.createHash('md5').update(str).digest('hex').toString().toUpperCase();
   }
@@ -54,7 +53,7 @@ module.exports = class extends think.Service {
         '&signType=MD5' +
         '&timeStamp=' + timeStamp;
 
-    var stringSignTemp = stringA + '&key=4a9f2c433adcc2698ba7704faedeaf82';
+    var stringSignTemp = stringA + '&key=' + this.opts.key;
     var sign = md5(stringSignTemp).toUpperCase();
     return sign;
   }
@@ -68,19 +67,15 @@ module.exports = class extends think.Service {
     const params = {
       appid: this.opts.appid,
       mch_id: this.opts.mch_id,
-      // transaction_id : transaction_id,
       out_trade_no: orderId,
       nonce_str: nonceStr,
       sign_type: 'MD5'
     };
     // 签名认证
-    const sign = this.__createSign(params, '4a9f2c433adcc2698ba7704faedeaf82');
+    const sign = this.__createSign(params, this.opts.key);
     params.sign = sign;
     // 创建xml字符串
     const xml = this.__createXML(params);
-
-    console.log(xml);
-    console.log(params);
 
     const resultData = await axios.post(url, xml).then(rs => rs.data);
     // xml 转 json
@@ -113,21 +108,19 @@ module.exports = class extends think.Service {
       // 商品描述-该内容需要按照微信规范写入*****
       body: '乐童乐学-鱼票',
       // 商品详情
-      // detail: {
-      //   // 订单原价，分
-      //   cost_price: orderRecord.order_price,
-      //   receipt_id: orderRecord.id, // 小票ID
-      //   goods_detail: [
-      //     {
-      //       goods_id: orderRecord.id,
-      //       goods_name: orderRecord.order_item,
-      //       // 商品数量
-      //       quantity: 1,
-      //       // 单价，分
-      //       price: orderRecord.order_price
-      //     }
-      //   ]
-      // },
+      detail: {
+        // 订单原价，分
+        goods_detail: [
+          {
+            goods_id: orderRecord.id,
+            goods_name: orderRecord.order_item,
+            // 商品数量
+            quantity: 1,
+            // 单价，分
+            price: orderRecord.order_price
+          }
+        ]
+      },
       // 附加数据，原样返回
       attach: 'WEB支付[' + orderRecord.noncestr + ']',
       // 商户订单号
@@ -155,7 +148,7 @@ module.exports = class extends think.Service {
       // receipt: 'N'
     };
     // 获得签名
-    const sign = this.__createSign(params, '4a9f2c433adcc2698ba7704faedeaf82');
+    const sign = this.__createSign(params, this.opts.key);
     params.sign = sign;
 
     // 获得xml
@@ -166,6 +159,7 @@ module.exports = class extends think.Service {
     // 对返回结果进行校验和判断。
     let resultObject = xml2json.toJson(resultData);
     resultObject = JSON.parse(resultObject);
+
     // 返回成功，获取prepay_id
     if (resultObject.xml.return_code === 'SUCCESS' && resultObject.xml.result_code === 'SUCCESS') {
       const payid = resultObject.xml.prepay_id;

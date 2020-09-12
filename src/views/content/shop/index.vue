@@ -23,18 +23,11 @@ export default {
   },
   computed:{
     pageType(){
-      return this.$route.query || 'list'
+      return this.$route.query.type || 'list'
     }
   },
   mounted(){
     console.log(this.pageType)
   },
-  methods: {
-    addItem() {
-      this.$router.push({ name: "shop", params: { type: "add",tableId: '0108' } });
-
-      // this.dialogShow.show = true
-    }
-  }
 };
 </script>

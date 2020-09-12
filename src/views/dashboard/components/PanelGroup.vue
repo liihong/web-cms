@@ -32,7 +32,7 @@
           <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">文章总数</div>
+          <div class="card-panel-text">机构总数</div>
           <count-to :start-val="0" :end-val="basicInfo.contentCount" :duration="400" class="card-panel-num"/>
         </div>
       </div>
@@ -43,7 +43,7 @@
           <svg-icon icon-class="message" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">留言总数</div>
+          <div class="card-panel-text">商家总数</div>
           <count-to :start-val="0" :end-val="basicInfo.messageCount" :duration="600" class="card-panel-num"/>
         </div>
       </div>

@@ -13,6 +13,27 @@ const orgServices =  {
         url: '/wechat/org/getOrgTypeList',
         method: 'get',
       })
+    },
+    getOrgInfoById(params){
+      return request({
+        url: '/wechat/org/getOrgInfoById',
+        method: 'get',
+        params: params
+      })
+    },
+    deleteImage(params){
+      return request({
+        url: '/wechat/org/deleteImage',
+        method: 'post',
+        data: params
+      })
+    },
+    getImgList(params){
+      return  request({
+        url: '/wechat/org/getImgList',
+        method: 'get',
+        params: params
+      })
     }
 }
 
