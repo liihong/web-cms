@@ -5,7 +5,7 @@
 <script>
   // Import TinyMCE
   import tinymce from 'tinymce/tinymce'
-  import 'tinymce/themes/modern/theme'
+  import 'tinymce/themes/mobile/theme'
 //   import 'tinymce/plugins/advlist' // 这几条引入是因为我的导入不了，不知道为啥
   import 'tinymce/plugins/link'
   import 'tinymce/plugins/image'
