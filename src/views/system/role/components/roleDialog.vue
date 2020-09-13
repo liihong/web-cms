@@ -53,7 +53,7 @@ export default {
           roleId: this.dialogState.ssbz,
           res: arrRes
       })
-      if (res.errno == 0) {
+      if (res.status == 0) {
         this.$message.success('权限修改成功')
       }
     }

@@ -59,4 +59,12 @@ module.exports = class extends Base {
 
     return this.success(data);
   }
+
+  async editShopAction() {
+    const form = this.post();
+
+    const data = await this.model('wechat_shop').where({id: form.id}).update(form);
+
+    return this.success(data);
+  }
 };

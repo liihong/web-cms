@@ -1,13 +1,14 @@
 <template>
-  <div>订单管理</div>
+  <div class="item">
+    <ResList tableId="0110" noEdit noAdd>
+    </ResList>
+  </div>
 </template>
 
 <script>
 export default {
-
-}
+  data() {
+    return {};
+  },
+};
 </script>
-
-<style>
-
-</style>

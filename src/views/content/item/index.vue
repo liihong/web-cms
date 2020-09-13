@@ -1,9 +1,9 @@
 <template>
   <div class="item">
-    <ResList noAdd tableId="0108">
-      <span slot="toolBar">
+    <ResList tableId="0109">
+      <!-- <span slot="toolBar">
         <el-button icon="el-icon-circle-plus-outline" type="success" @click="addItem">新增</el-button>
-      </span>
+      </span> -->
     </ResList>
   </div>
 </template>

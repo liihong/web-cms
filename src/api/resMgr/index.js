@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-let resMgrServices = {}
-export default resMgrServices = {
+const resMgrServices = {
     // 获取表格资源数据
     getTableData(params) {
         return request({
@@ -82,3 +81,5 @@ export default resMgrServices = {
         )
     }
 }
+
+export default resMgrServices

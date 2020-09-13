@@ -140,7 +140,6 @@ export default {
     },
     query: {
       type: Object,
-      String
     },
     num: {
       type: Number

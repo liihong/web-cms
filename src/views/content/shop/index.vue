@@ -1,7 +1,6 @@
 <template>
   <div class="item">
-    <EditShop v-if="pageType && pageType==='add'"/>
-    <shopList v-else />
+    <component :is="activeComp" />
   </div>
 </template>
 
@@ -22,12 +21,14 @@ export default {
     };
   },
   computed:{
-    pageType(){
-      return this.$route.query.type || 'list'
+    activeComp(){
+      console.log(this.$route.query.type)
+      if(this.$route.query.type === 'add' || this.$route.query.type === 'edit'){
+        return EditShop
+      }else {
+        return shopList
+      }
     }
-  },
-  mounted(){
-    console.log(this.pageType)
   },
 };
 </script>

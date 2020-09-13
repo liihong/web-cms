@@ -59,13 +59,13 @@ export default {
     },
     handleRemove(file) {
       this.$message.confirmDelete(async () => {
-        let res = await this.$ajax.post(this.$api.deleteDdTz, { id: file.id })
-        if (res.errno == 0) {
-          this.$message.deleteSuccess()
-          this.getTzData()
-        } else {
-          this.$message.deleteError(res.data.errmsg)
-        }
+        orgServices.deleteImage({id: file.id})
+        .then(res => {
+          if (res.status == 0) {
+            this.$message.error('删除图片成功！')
+            this.getTzData()
+          } 
+        })
       })
     },
     handlePictureCardPreview(file) {

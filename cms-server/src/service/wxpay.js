@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const xml2json = require('xml2json');
 const moment = require('moment');
 const md5 = require('blueimp-md5');
+const { format } = require('path');
 
 module.exports = class extends think.Service {
   constructor(opts) {
@@ -164,6 +165,7 @@ module.exports = class extends think.Service {
     if (resultObject.xml.return_code === 'SUCCESS' && resultObject.xml.result_code === 'SUCCESS') {
       const payid = resultObject.xml.prepay_id;
       const timeSamp = moment(times).format('YYYYMMDDHHmmss');
+      console.log(resultObject.xml);
       const paySign = this.__getPaySign(this.opts.appid, timeSamp, orderRecord.noncestr, 'prepay_id=' + payid);
       return {
         success: true,
@@ -171,6 +173,8 @@ module.exports = class extends think.Service {
         paySign: paySign,
         timeSamp: timeSamp,
         nonceStr: orderRecord.noncestr,
+        orderId: orderRecord.id,
+        order: orderRecord,
         expiretime: endtime// 支付超期，用于再次进入查询使用
       };
     }

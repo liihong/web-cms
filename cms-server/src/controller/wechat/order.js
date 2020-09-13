@@ -24,15 +24,15 @@ module.exports = class extends Base {
     if (status !== '0') {
       whereObj.order_status = status;
     }
-    const data = await this.model('wechat_orders').join({ table: 'wechat_items', join: 'left', on: ['order_item', 'id'] }).where(whereObj).select();
+    const data = await this.model('wechat_orders').field('wechat_items.*,wechat_orders.id,order_price,order_status,order_create_time,order_use_time,order_noncestr').join({ table: 'wechat_items', join: 'left', on: ['order_item', 'id'] }).where(whereObj).select();
 
     return this.success(data);
   }
 
   async getOrderDetailAction() {
     const orderId = this.get('id');
-    const whereObj = { id: orderId };
-    const data = await this.model('wechat_orders').join({ table: 'wechat_items', join: 'left', on: ['order_item', 'id'] }).where(whereObj).select();
+    const whereObj = { 'wechat_orders.id': orderId };
+    const data = await this.model('wechat_orders').field('wechat_items.*,wechat_orders.id,order_price,order_status,order_create_time,order_use_time,order_noncestr').join({ table: 'wechat_items', join: 'left', on: ['order_item', 'id'] }).where(whereObj).find();
     return this.success(data);
   }
 
@@ -41,9 +41,17 @@ module.exports = class extends Base {
     const orderId = this.post('id');
     const status = this.post('status');
     const whereObj = { id: orderId };
-    await this.model('wechat_orders').where(whereObj).update({order_status: status});
-    const data = this.model('wechat_orders').where(whereObj).find();
-    await this.model('wechat_items').where({id: data.order_item}).increment('item_num', 1);
+    const updateObj = {order_status: status};
+    // 如果是商家核销，则同时更新消费时间
+    if (status && status === '1203') {
+      updateObj.order_use_time = util.getNowTime();
+    }
+    await this.model('wechat_orders').where(whereObj).update(updateObj);
+    const data = await this.model('wechat_orders').where(whereObj).find();
+    // 如果是更新付款状态 则同步更新项目销量
+    if (status && status === '1202') {
+      await this.model('wechat_items').where({id: data.order_item}).increment('item_num', 1);
+    }
 
     return this.success(data);
   }

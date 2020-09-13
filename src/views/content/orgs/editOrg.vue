@@ -47,7 +47,7 @@
           </el-form-item>
 
           <el-form-item label="营业时间"
-                        prop="org_time">
+                        prop="org_businessHours">
             <el-input v-model="form.org_businessHours"></el-input>
           </el-form-item>
           <el-form-item label="联系人"
@@ -88,8 +88,8 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
-                       @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
+                       @click="onSubmit">保存</el-button>
+            <el-button @click="goCancel">取消</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -147,9 +147,6 @@ export default {
         ],
         org_type: [
           { required: true, message: '请选择机构类型', trigger: 'blur' }
-        ],
-        org_time: [
-          { required: true, message: '请选择日期', trigger: 'blur' }
         ],
       }
     }
@@ -211,6 +208,9 @@ export default {
           this.form = res.data
         }
       })
+    },
+    goCancel(){
+      this.$router.push({ name: "orgs", query: { type: "list" } });
     }
   },
   watch: {
