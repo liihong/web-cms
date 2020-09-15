@@ -7,7 +7,7 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
-const animationDuration = 6000
+const animationDuration = 3000
 
 export default {
   props: {
@@ -51,6 +51,9 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
+        title: {
+          text: '订单信息统计',
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -58,7 +61,7 @@ export default {
           }
         },
         grid: {
-          top: 10,
+          top: 40,
           left: '2%',
           right: '2%',
           bottom: '3%',
@@ -78,21 +81,21 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
+          name: '未支付',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [79, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: 'pageB',
+          name: '已支付',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
           data: [80, 52, 200, 334, 390, 330, 220],
           animationDuration
         }, {
-          name: 'pageC',
+          name: '已消费',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',

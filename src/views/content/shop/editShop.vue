@@ -66,7 +66,8 @@
             </el-form-item>
             <el-form-item label="商家介绍"
                           prop="shop_desc">
-              <WechatEdit v-model="form.shop_desc" />
+              <!-- <WechatEdit v-model="form.shop_desc" /> -->
+              <el-input type="textarea" v-model="form.shop_desc" />
             </el-form-item>
             <el-form-item>
               <el-button type="primary"

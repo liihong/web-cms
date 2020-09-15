@@ -1,6 +1,6 @@
 <template>
   <div class="types">
-    <ResList tableId='0104' noEdit>
+    <ResList tableId='0104' noEdit noAdd>
       <span slot="toolBar">
         <el-button icon="el-icon-circle-plus-outline" type="success" @click="addItem">新增</el-button>
       </span>

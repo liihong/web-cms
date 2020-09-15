@@ -83,8 +83,9 @@
           </el-form-item>
           <el-form-item label="机构介绍"
                         prop="org_desc">
-            <WechatEdit @getContent="getContent"
-                        v-model="form.org_desc" />
+            <!-- <WechatEdit @getContent="getContent"
+                        v-model="form.org_desc" /> -->
+                        <el-input v-model="form.org_desc" type="textarea"/>
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
@@ -131,6 +132,7 @@ export default {
       form: {
         org_name: '',
         org_type: '',
+        org_logo: '',
         org_desc: '',
         org_num: '',
         org_businessHours: '',
@@ -199,7 +201,9 @@ export default {
       this.$refs[formName].resetFields();
     },
     handleAvatarSuccess (response) {
-      this.form.org_img = response.data.path
+      this.form.org_logo = response.data.path
+      this.$set(this.form,'org_logo',response.data.path)
+      console.log(this.form.org_logo)
     },
     // 编辑数据回填
     getFormData () {

@@ -7,44 +7,44 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">用户总数</div>
-          <count-to :start-val="0" :end-val="basicInfo.adminUserCount" :duration="26" class="card-panel-num"/>
+          <count-to :start-val="0" :end-val="basicInfo.userCount" :duration="26" class="card-panel-num"/>
         </div>
-        <!-- <div class="card-panel-description">
+        <div class="card-panel-description">
           <div class="card-panel-text">今日新增</div>
-          <count-to :start-val="0" :end-val="basicInfo.regUserCount" :duration="26" class="card-panel-num"/>
-        </div> -->
+          <count-to :start-val="0" :end-val="basicInfo.newUserCount" :duration="26" class="card-panel-num"/>
+        </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">新注册用户</div>
-          <count-to :start-val="0" :end-val="basicInfo.regUserCount" :duration="600" class="card-panel-num"/>
+          <div class="card-panel-text">机构总数</div>
+          <count-to :start-val="0" :end-val="basicInfo.orgCount" :duration="600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="documentation" class-name="card-panel-icon" />
+          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">机构总数</div>
-          <count-to :start-val="0" :end-val="basicInfo.contentCount" :duration="400" class="card-panel-num"/>
+          <div class="card-panel-text">商家总数</div>
+          <count-to :start-val="0" :end-val="basicInfo.shopCount" :duration="400" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-shoppingCard">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">商家总数</div>
-          <count-to :start-val="0" :end-val="basicInfo.messageCount" :duration="600" class="card-panel-num"/>
+          <div class="card-panel-text">订单总数</div>
+          <count-to :start-val="0" :end-val="basicInfo.order.orderCount" :duration="600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>

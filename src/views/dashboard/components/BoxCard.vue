@@ -5,11 +5,11 @@
   </div>
     <div style="position:relative;">
       <pan-thumb :image="loginState.userInfo.photo" class="panThumb"/>
-      <mallki class-name="mallki-text" :text="loginState.userInfo.userName"/>
+      <mallki class-name="mallki-text" :text="loginState.userInfo.name"/>
       <div class="info-pannel">
           <ul>
-              <li><label>最后登录ip：</label>{{renderLogs.ip}}</li>
-              <li><label>最后登录时间：</label>{{renderLogs.date}}</li>
+              <li><label>最后登录ip：</label>{{loginState.userInfo.ip}}</li>
+              <li><label>最后登录时间：</label>{{loginState.userInfo.lastlogintime}}</li>
               <li><label>我的权限：</label><el-button size="mini" type="text" @click="showMyResourceBox">{{$t('main.seeDetails')}}</el-button></li>
           </ul>
       </div>
