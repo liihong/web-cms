@@ -12,7 +12,6 @@ module.exports = class extends Base {
     const themefile = this.file('file');
     const filepath = themefile.path;// 为防止上传的时候因文件名重复而覆盖同名已上传文件，path是MD5方式产生的随机名称
     const uploadpath = think.ROOT_PATH + '/../upload/images/';
-    console.log(uploadpath);
     // let uploadpath = '/upload/';
     think.mkdir(uploadpath);// 创建该目录
     // 提取出用 ‘/' 隔开的path的最后一部分。

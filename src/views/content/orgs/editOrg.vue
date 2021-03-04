@@ -188,12 +188,23 @@ export default {
       this.$refs.upload.submit()
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          orgServices.addOrg(this.form).then(res => {
-            if (res.status === 0) {
-              this.$message.success('添加成功')
+           if (this.formType === 'edit') {
+            orgServices.editOrg(this.form).then(res => {
+              if (res.status === 0) {
+                this.$message.success('编辑成功')
+                this.$router.push({ name: "orgs", query: { type: "list" } });
+              }
+            })
+           }else{
+            orgServices.addOrg(this.form).then(res => {
+              if (res.status === 0) {
+                this.$message.success('添加成功')
+                this.$router.push({ name: "orgs", query: { type: "list" } });
 
-            }
-          })
+              }
+            })
+           }
+       
         }
       });
     },

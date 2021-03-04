@@ -8,6 +8,13 @@ const orgServices =  {
             data: params
         })
     },
+    editOrg(params) {
+      return request({
+          url: '/wechat/org/editOrg',
+          method: 'post',
+          data: params
+      })
+  },
     getOrgType(){
       return request({
         url: '/wechat/org/getOrgTypeList',

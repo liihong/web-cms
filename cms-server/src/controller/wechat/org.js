@@ -43,6 +43,14 @@ module.exports = class extends Base {
 
     return this.success(data);
   }
+  // 编辑
+  async editOrgAction() {
+    const form = this.post();
+
+    const data = await this.model('wechat_orgs').update(form);
+
+    return this.success(data);
+  }
 
   // 上传图片
   async uploadImageAction() {

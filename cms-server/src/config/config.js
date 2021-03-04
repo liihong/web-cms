@@ -5,7 +5,7 @@ module.exports = {
   errnoField: 'status', // errno field
   errmsgField: 'msg', // errmsg field
   defaultErrno: 500, // default errno
-  validateDefaultErrno: 500, // validate default errno
+  validateDefaultErrno: 200, // validate default errno
   wechat: {
     baseURL: 'https://api.weixin.qq.com',
     appid: 'wxbbdb53e6cf203e84',

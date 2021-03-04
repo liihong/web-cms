@@ -97,4 +97,12 @@ module.exports = class extends Base {
     const data = await this.model(columnData.FOREIGNKEY_TABLENAME).where(whereObj).delete();
     return this.success(data);
   }
+
+  // 根据tableId 和column_id 返回对应的信息
+  async getResAttrByIdAction() {
+    const {tableId, columnId} = this.get();
+
+    const data = await this.model('resource_table_column').where({table_id: tableId, column_id: columnId}).find();
+    return this.success(data);
+  }
 };
