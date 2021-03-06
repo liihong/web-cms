@@ -11,7 +11,7 @@
     "lint-fix": "eslint --fix src/"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "blueimp-md5": "^2.18.0",
     "crypto": "^1.0.1",
     "excel-export": "^0.5.1",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
-    "node-notifier": "^5.0.2",
+    "node-notifier": "^8.0.1",
     "think-inspect": "0.0.2",
     "think-babel": "^1.0.3",
     "think-watcher": "^3.0.0",
