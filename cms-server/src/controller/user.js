@@ -96,7 +96,7 @@ module.exports = class extends Base {
     try {
       const data = await this.model('cms_resource').join('cms_role_resource ON cms_resource.resId=cms_role_resource.resId').where({
         roleId: this.get('token')
-      }).select();
+      }).order('resOrder asc').select();
       return this.success(data);
     } catch (ex) {
       return this.fail(2000, '菜单获取失败！', {});

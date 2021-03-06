@@ -82,7 +82,7 @@ export default {
       this.$refs.upload.submit()
     },
     handleSuccess(){
-        this.$message.success('图纸上传成功')
+        this.$message.success('上传成功')
     },
     // 获取图纸信息
     getTzData() {

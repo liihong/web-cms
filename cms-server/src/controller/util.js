@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = class extends Base {
   // 上传图片
-  async uploadAction() {
+  async uploadFileAction() {
     if (!this.file('file')) {
       return this.fail(500, '文件选择出错');
     }

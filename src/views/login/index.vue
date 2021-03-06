@@ -113,10 +113,12 @@ export default {
             })
             .then(() => {
               this.loading = false
+              this.$message.success('登录成功！')
               this.$router.push({ path: '/' })
             })
             .catch(() => {
               this.loading = false
+              this.$message.error('用户名或密码错误！')
             })
         } else {
           console.log('error submit!!')
