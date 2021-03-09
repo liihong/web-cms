@@ -16,7 +16,7 @@ event:{
           <el-button size="mini" @click="handleAdd" type="primary" icon="el-icon-circle-plus">新增</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" @click="handleExport" type="primary" icon="el-icon-download">导出</el-button>
+          <!-- <el-button size="mini" @click="handleExport" type="primary" icon="el-icon-download">导出</el-button> -->
         </el-form-item>
         <el-form-item>
           <el-input
@@ -30,7 +30,9 @@ event:{
           <el-button size="mini" @click="queryResList" type="primary" icon="el-icon-search">查询</el-button>
           <el-button size="mini" @click="reset" type="primary" icon="el-icon-refresh">重置</el-button>
         </el-form-item>
+        <div style="float:right;margin-right:30px;">
         <slot name="toolBar"></slot>
+        </div>
       </el-form>
     </el-col>
 
@@ -97,7 +99,6 @@ event:{
     <!--工具条-->
     <el-col :span="24" class="pagination">
       <el-button
-        v-if="!noEdit"
         type="danger"
         @click="batchRemove"
         :disabled="this.sels.length===0"
@@ -106,7 +107,7 @@ event:{
         background
         @current-change="handleCurrentChange"
         :current-page="queryParams.pageNumber"
-        :page-sizes="[30, 60, 100, 150]"
+        :page-sizes="[10, 20, 30, 50]"
         :page-size="queryParams.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -173,7 +174,7 @@ export default {
         tableId: this.tableId,
         order: "",
         pageNumber: 1,
-        pageSize: 30,
+        pageSize: 10,
         queryColumn: "",
         queryKey: ""
       }
@@ -360,10 +361,12 @@ export default {
           let params = {};
           params[this.primaryKey] = ids;
           params["tableId"] = this.tableId;
-          this.$ajax.post(this.$api.deleteTableData, params).then(res => {
-            if (res && res.data && res.errno == 0) {
+          resMgrServices.deleteTableData(params).then(res => {
+            if (res && res.data && res.status == 0) {
               this.$message.success("批量删除成功");
               this.getResList();
+            }else{
+              this.$message.success("批量删除失败");
             }
           });
         })

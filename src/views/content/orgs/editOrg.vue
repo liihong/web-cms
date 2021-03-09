@@ -150,6 +150,18 @@ export default {
         org_type: [
           { required: true, message: '请选择机构类型', trigger: 'blur' }
         ],
+         org_businessHours: [
+          { required: true, message: '请选择营业时间', trigger: 'blur' }
+        ],
+         org_phone: [
+          { required: true, message: '请输入联系方式', trigger: 'blur' }
+        ],
+         org_address: [
+          { required: true, message: '请选择机构类型', trigger: 'blur' }
+        ],
+         org_manager: [
+          { required: true, message: '请输入联系人', trigger: 'blur' }
+        ],
       }
     }
   },
