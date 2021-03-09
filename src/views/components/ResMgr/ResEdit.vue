@@ -70,12 +70,10 @@
                 <!--图片上传-->
                 <el-upload class="upload-demo"
                            :data="queryData"
-                           :on-preview="onPreview"
-                           :on-remove="onFileRemove"
                            :show-file-list="false"
-                           :auto-upload="false"
                            ref="upload"
-                           action="/api/util/upload">
+                           :on-success="(res, file)=>{uploadImageSuccess(res,file,item.column_name)}"
+                           action="/api/util/uploadImage">
                   <img v-if="formData[item.column_name]"
                        :src="formData[item.column_name]"
                        style="width:200px;height:150px;"
@@ -173,16 +171,18 @@ export default {
       Object.keys(data).map(item => {
         params.form[item.toLowerCase()] = data[item]
       })
+      // if (this.$refs['upload']) {
+      //   this.queryData.query = this.primaryKey['value']
+      //   this.$refs.upload[0].submit()
+      // }
       //编辑
       if (this.optionType == 'edit') {
         params.primaryKey = this.primaryKey
+        console.log(params.form)
         resMgrServices.editTableData(params).then(res => {
           if (res && res.data && res.data == 1) {
             this.$message.editSuccess()
-            if (this.$refs['upload']) {
-              this.queryData.query = this.primaryKey['value']
-              this.$refs.upload[0].submit()
-            }
+           
             params.type = 'edit'
             params.data = params.form
 
@@ -209,19 +209,7 @@ export default {
         })
       }
     },
-    //点击已上传的附件使其直接下载
-    onPreview (file) {
-      let link = document.createElement('a')
-      link.style.display = 'none'
-      link.href = file.url
-      link.setAttribute('id', 'downloadLink')
-      link.setAttribute('download', file.name)
-      document.body.appendChild(link)
-      link.click()
-      // 删除添加的a链接
-      let objLink = document.getElementById('downloadLink')
-      document.body.removeChild(objLink)
-    },
+    
     // 删除文件
     onFileRemove (file) {
       this.queryData.id = file.id
@@ -275,6 +263,10 @@ export default {
         .then(res => {
           this.$set(this.dropDownListData, column_name, res.data)
         })
+    },
+    // 上传成功后更新formData的图片地址
+    uploadImageSuccess(res,file,attr){
+      this.$set(this.formData, attr, res.data.path)
     }
   },
   watch: {

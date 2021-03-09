@@ -3,10 +3,11 @@ import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 
+const BASE_URL = process.env.NODE_ENV === 'development' ? '/api' : 'http://www.letonglexue.com/api'
 // 创建axios实例
 const request = axios.create({
   // baseURL: 'https://easy-mock.com/mock/5baa16736d85f81e16ad4858/cms',
-  baseURL: '/api',
+  baseURL: BASE_URL ,
   timeout: 5000 // 请求超时时间
 })
 
