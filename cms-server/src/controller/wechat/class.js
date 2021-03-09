@@ -2,7 +2,37 @@ const Base = require('../base.js');
 const util = require('../../../utils/util.js');
 
 module.exports = class extends Base {
-  async indexAction() {
+  async indexAction() {}
+
+  
+  // 添加
+  async addClassAction() {
+    const form = this.post();
+
+    form.id = util.getUUId();
+    const data = await this.model('wechat_class').add(form);
+
+    return this.success(data);
+  }
+
+  // bianji
+  async editClassAction() {
+    const form = this.post();
+
+    const data = await this.model('wechat_class').update(form);
+
+    return this.success(data);
+  }
+
+  async getOrgListAction() {
+    const orgList = await this.model('wechat_orgs').field('id,org_name').select();
+    return this.success(orgList);
+  }
+
+  async getClassInfoByIdAction() {
+    const classId = this.get('id');
+    const data = await this.model('wechat_class').where({id: classId}).find();
+    return this.success(data);
   }
 
   // 根据机构ID返回该机构下的所有课程信息
@@ -13,7 +43,9 @@ module.exports = class extends Base {
       const orgId = this.get('orgId');
       const typeId = this.get('type');
 
-      const whereObj = {class_status: 1};
+      const whereObj = {
+        class_status: 1
+      };
       // 0 默认全部
       if (orgId && orgId !== '0') {
         whereObj.class_org_id = orgId;
@@ -34,7 +66,9 @@ module.exports = class extends Base {
     try {
       const typeId = this.get('typeId');
 
-      const whereObj = {class_status: 1};
+      const whereObj = {
+        class_status: 1
+      };
       // 0 默认全部
       if (typeId && typeId !== '0') {
         whereObj.class_type = typeId;
@@ -61,12 +95,19 @@ module.exports = class extends Base {
     const token = this.get('userId') || '';
 
     // try {
-    const isCollect = await this.model('wechat_user_collect').where({class_id: classId, user_id: token}).select();
+    const isCollect = await this.model('wechat_user_collect').where({
+      class_id: classId,
+      user_id: token
+    }).select();
 
-    const data = await this.model('wechat_class').where({id: classId}).find();
+    const data = await this.model('wechat_class').where({
+      id: classId
+    }).find();
     data.isCollection = isCollect.length > 0 ? 1 : 0;
 
-    const classList = await this.model('wechat_class').where({'class_type': data.class_type}).field('id,class_name,class_img,class_playNum,class_video,class_desc').select();
+    const classList = await this.model('wechat_class').where({
+      'class_type': data.class_type
+    }).field('id,class_name,class_img,class_playNum,class_video,class_desc').select();
     data.classList = classList;
     return this.success(data);
     // } catch (ex) {
@@ -87,14 +128,20 @@ module.exports = class extends Base {
   async addClassPlayNumAction() {
     const classId = this.post('id');
 
-    const data = await this.model('wechat_class').where({id: classId}).increment('class_playNum', 1);
+    const data = await this.model('wechat_class').where({
+      id: classId
+    }).increment('class_playNum', 1);
 
     return this.success(data);
   }
 
   // 设置收藏
   async setClassCollectAction() {
-    const {classId, userId, status} = this.post();
+    const {
+      classId,
+      userId,
+      status
+    } = this.post();
 
     const data = {
       id: util.getUUId(),

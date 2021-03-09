@@ -78,7 +78,7 @@ module.exports = class extends Base {
         img_type: suffix,
         img_name: filename,
         img_path: file.path,
-        img_url: 'http://letonglexue.com/upload/images/' + filename
+        img_url: 'http://letonglexue.com/upload/images/' + orgId + '/' + filename
       };
       const data = await this.model('wechat_images').add(tzData);
       return this.success(data);

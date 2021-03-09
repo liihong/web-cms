@@ -17,8 +17,9 @@
               list-type="picture-card"
               ref="upload"
               class="avatar-uploader"
-              action="/api/util/upload"
+              action="/api/util/uploadImage"
               :show-file-list="false"
+              :auto-upload="false"
               :on-success="handleAvatarSuccess"
             >
               <img v-if="form.org_logo" :src="form.org_logo" class="avatar" />
@@ -196,7 +197,8 @@ export default {
     },
     onSubmit() {
       this.$refs.upload.submit()
-      this.$refs["form"].validate((valid) => {
+      setTimeout(()=>{
+        this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.formType === "edit") {
             orgServices.editOrg(this.form).then((res) => {
@@ -215,6 +217,8 @@ export default {
           }
         }
       })
+      },500)
+      
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()

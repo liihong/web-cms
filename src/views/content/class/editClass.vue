@@ -2,68 +2,82 @@
   <div style="margin:30px;">
     <el-row>
       <el-col :span="14">
-        <el-form ref="form"
-                 :rules="rules"
-                 :model="form"
-                 label-width="120px">
-          <el-form-item label="课程名称"
-                        prop="org_name">
-            <el-input v-model="form.org_name"></el-input>
+        <el-form ref="form" :rules="rules" :model="form" label-width="120px">
+          <el-form-item label="课程名称" prop="class_name">
+            <el-input v-model="form.class_name"></el-input>
           </el-form-item>
-          <el-form-item label="课程图片"
-                        prop="org_logo">
-            <el-upload list-type="picture-card"
-                       ref="upload"
-                       class="avatar-uploader"
-                       action="/api/util/uploadImage"
-                       :show-file-list="false"
-                       :on-success="handleAvatarSuccess">
-              <img v-if="form.org_logo"
-                   :src="form.org_logo"
-                   class="avatar">
-              <i v-else
-                 class="el-icon-plus avatar-uploader-icon"></i>
+          <el-form-item label="课程图片" prop="org_logo">
+            <el-upload
+              list-type="picture-card"
+              ref="upload"
+              class="avatar-uploader"
+              action="/api/util/uploadImage"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="form.class_img" :src="form.class_img" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="所属机构"
-                        prop="org_type">
-            <el-select v-model="form.org_type"
-                       placeholder="请选择机构分类">
-              <el-option v-for="item in typeList"
-                         :key="item.id"
-                         :label="item.type_name"
-                         :value="item.id"></el-option>
+          <el-form-item label="课程视频" prop="org_logo">
+            <el-radio-group v-model="isUpload">
+              <el-radio :label="1">上传</el-radio>
+              <el-radio :label="0">输入地址</el-radio>
+            </el-radio-group>
+            <el-upload
+              v-if="isUpload===1"
+              list-type="picture-card"
+              ref="uploadVideo"
+              class="avatar-uploader"
+              action="/api/util/uploadVideo"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-success="handleVideoSuccess"
+              :before-upload="beforeUploadVideo"
+              :on-progress="uploadVideoProcess"
+            >
+              <video
+                v-if="form.class_video !='' && videoFlag == false"
+                :src="form.class_video"
+                class="avatar"
+                controls="controls"
+              >您的浏览器不支持视频播放</video>
+              <i
+                v-else-if="form.class_video =='' && videoFlag == false"
+                class="el-icon-plus avatar-uploader-icon"
+              ></i>
+              <el-progress
+                v-if="videoFlag == true"
+                type="circle"
+                :percentage="videoUploadPercent"
+                style="margin-top:30px;"
+              ></el-progress>
+            </el-upload>
+            <el-input v-else v-model="form.class_video" />
+          </el-form-item>
+          <el-form-item label="所属机构" prop="class_org_id">
+            <el-select v-model="form.class_org_id" placeholder="请选择机构分类">
+              <el-option
+                v-for="item in orgList"
+                :key="item.id"
+                :label="item.org_name"
+                :value="item.id"
+              ></el-option>
             </el-select>
           </el-form-item>
-           <el-form-item label="所属类型"
-                        prop="org_type">
-            <el-select v-model="form.org_type"
-                       placeholder="请选择机构分类">
-              <el-option v-for="item in typeList"
-                         :key="item.id"
-                         :label="item.type_name"
-                         :value="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="课程视频"
-                        prop="org_tag">
-            <el-input v-model="form.org_tag"></el-input>
-          </el-form-item>
-          <el-form-item label="是否推荐"
-                        prop="org_isHot">
-            <el-radio-group v-model="form.org_isHot">
-              <el-radio :label=1>是</el-radio>
-              <el-radio :label=0>否</el-radio>
+          <el-form-item label="是否推荐" prop="class_isHot">
+            <el-radio-group v-model="form.class_isHot">
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="课程简介"
-                        prop="org_businessHours">
-            <el-input v-model="form.org_businessHours"  type="textarea" rows="5"></el-input>
+          <el-form-item label="课程简介" prop="class_desc">
+            <el-input v-model="form.class_desc" type="textarea" rows="5"></el-input>
           </el-form-item>
-         
+
           <el-form-item>
-            <el-button type="primary"
-                       @click="onSubmit">保存</el-button>
+            <el-button type="primary" @click="onSubmit">保存</el-button>
             <el-button @click="goCancel">取消</el-button>
           </el-form-item>
         </el-form>
@@ -73,9 +87,8 @@
 </template>
 
 <script>
-import WechatEdit from '@/components/Editor/index.vue'
-import orgServices from '@/api/wechat/org';
-
+import WechatEdit from "@/components/Editor/index.vue"
+import classServices from "@/api/wechat/class"
 
 export default {
   components: {
@@ -84,117 +97,165 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'add'
-    }
+      default: "add",
+    },
   },
-  data () {
+  data() {
     return {
       dialogVisible: false,
-      position: '',
+      position: "",
       map: {},
-      typeList: [],
+      orgList: [],
+      isUpload: 1,
+      videoFlag: false,
+      videoUploadPercent: 0,
       form: {
-        org_name: '',
-        org_type: '',
-        org_logo: '',
-        org_desc: '',
-        org_num: '',
-        org_businessHours: '',
-        org_manager: '',
-        org_address: '',
-        org_phone: '',
-        org_isHot: 0,
-        org_remark: '',
-        org_status: ''
+        id: "",
+        class_name: "",
+        class_type: "",
+        class_org_id: "",
+        class_img: "",
+        class_video: "",
+        class_isHot: 0,
+        class_desc: "",
       },
       rules: {
-        org_name: [
-          { required: true, message: '请输入机构名称', trigger: 'blur' },
+        class_name: [
+          { required: true, message: "请输入机构名称", trigger: "blur" },
         ],
-        org_type: [
-          { required: true, message: '请选择机构类型', trigger: 'blur' }
+        class_org_id: [
+          { required: true, message: "请选择所属机构", trigger: "blur" },
         ],
-      }
+      },
     }
   },
   computed: {
-    formType () {
+    formType() {
       return this.$route.query.type
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.initData()
   },
   methods: {
-    initData () {
-      orgServices.getOrgType().then(res => {
+    initData() {
+      classServices.getOrgList().then((res) => {
         if (res.status === 0) {
-          this.typeList = res.data
+          this.orgList = res.data
         }
       })
-      if (this.formType === 'edit') {
+      if (this.formType === "edit") {
         this.getFormData()
       }
     },
-    getPosition (val) {
-      this.position = val.position.lng + ',' + val.position.lat
-      this.form.org_address = val.address
+    //上传前回调
+    beforeUploadVideo(file) {
+      var fileSize = file.size / 1024 / 1024 < 50
+      if (
+        [
+          "video/mp4",
+          "video/ogg",
+          "video/flv",
+          "video/avi",
+          "video/wmv",
+          "video/rmvb",
+          "video/mov",
+        ].indexOf(file.type) == -1
+      ) {
+        this.$message.warning("请上传正确的视频格式")
+        return false
+      }
+      if (!fileSize) {
+        this.$message.warning("视频大小不能超过50MB")
+        return false
+      }
+      this.isShowUploadVideo = false
     },
-    setPosition () {
-      this.form.org_lon = this.position.split(',')[1]
-      this.form.org_lat = this.position.split(',')[0]
-      this.dialogVisible = false
+    // 进度条
+    uploadVideoProcess(event, file) {
+      this.videoFlag = true
+      this.videoUploadPercent = file.percentage.toFixed(0) * 1
     },
-    getContent (info) {
+    getContent(info) {
       this.form.org_desc = info
     },
-    onSubmit () {
+    onSubmit() {
       this.$refs.upload.submit()
-      this.$refs['form'].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
-           if (this.formType === 'edit') {
-            orgServices.editOrg(this.form).then(res => {
+          if (this.formType === "edit") {
+            classServices.editClass(this.form).then((res) => {
               if (res.status === 0) {
-                this.$message.success('编辑成功')
-                this.$router.go(-1);
+                this.$message.success("编辑成功")
+                this.$router.go(-1)
               }
             })
-           }else{
-            orgServices.addOrg(this.form).then(res => {
+          } else {
+            classServices.addClass(this.form).then((res) => {
               if (res.status === 0) {
-                this.$message.success('添加成功')
-                this.$router.go(-1);
+                this.$message.success("添加成功")
+                this.$router.go(-1)
               }
             })
-           }
-       
-        }
-      });
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields();
-    },
-    handleAvatarSuccess (response) {
-      this.form.org_logo = response.data.path
-      this.$set(this.form,'org_logo',response.data.path)
-      console.log(this.form.org_logo)
-    },
-    // 编辑数据回填
-    getFormData () {
-      orgServices.getOrgInfoById({ id: this.$route.query.id }).then(res => {
-        if (res.status === 0) {
-          this.form = res.data
+          }
         }
       })
     },
-    goCancel(){
-      this.$router.push({ name: "orgs", query: { type: "list" } });
-    }
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+    },
+    handleAvatarSuccess(response) {
+      this.form.org_logo = response.data.path
+      this.$set(this.form, "org_logo", response.data.path)
+      console.log(this.form.org_logo)
+    },
+    handleVideoSuccess(response) {
+      this.form.org_logo = response.data.path
+      this.$set(this.form, "org_logo", response.data.path)
+    },
+    // 编辑数据回填
+    getFormData() {
+      classServices
+        .getClassInfoById({ id: this.$route.query.id })
+        .then((res) => {
+          if (res.status === 0) {
+            this.form = res.data
+          }
+        })
+    },
+    goCancel() {
+      this.$router.push({ name: "orgs", query: { type: "list" } })
+    },
   },
   watch: {
-    infos () {
-      this.position = this.form.lon + ',' + this.form.lat
-    }
-  }
+    infos() {
+      this.position = this.form.lon + "," + this.form.lat
+    },
+  },
 }
 </script>
+<style scoped>
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 250px;
+    height: 150px;
+    display: block;
+  }
+</style>
