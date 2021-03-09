@@ -57,7 +57,7 @@
             <el-input v-else v-model="form.class_video" />
           </el-form-item>
           <el-form-item label="所属机构" prop="class_org_id">
-            <el-select v-model="form.class_org_id" placeholder="请选择机构分类">
+            <el-select v-model="form.class_org_id" placeholder="请选择所属机构">
               <el-option
                 v-for="item in orgList"
                 :key="item.id"
@@ -181,7 +181,11 @@ export default {
     },
     onSubmit() {
       this.$refs.upload.submit()
-      this.$refs["form"].validate((valid) => {
+      
+      this.$refs.uploadVideo.submit()
+
+      setTimeout(()=>{
+        this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.formType === "edit") {
             classServices.editClass(this.form).then((res) => {
@@ -200,18 +204,20 @@ export default {
           }
         }
       })
+      },500)
+     
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
     handleAvatarSuccess(response) {
-      this.form.org_logo = response.data.path
-      this.$set(this.form, "org_logo", response.data.path)
+      this.form.class_img = response.data.path
+      this.$set(this.form, "class_img", response.data.path)
       console.log(this.form.org_logo)
     },
     handleVideoSuccess(response) {
-      this.form.org_logo = response.data.path
-      this.$set(this.form, "org_logo", response.data.path)
+      this.form.class_video = response.data.path
+      this.$set(this.form, "class_video", response.data.path)
     },
     // 编辑数据回填
     getFormData() {
@@ -234,7 +240,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style >
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -242,15 +248,18 @@ export default {
     position: relative;
     overflow: hidden;
   }
+  .el-upload--picture-card{
+    width:250px;
+  }
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+    width: 250px;
+    height: 150px;
+    line-height: 150px;
     text-align: center;
   }
   .avatar {
