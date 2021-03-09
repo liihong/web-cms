@@ -6,16 +6,16 @@
                  :rules="rules"
                  :model="form"
                  label-width="120px">
-          <el-form-item label="机构名称"
+          <el-form-item label="课程名称"
                         prop="org_name">
             <el-input v-model="form.org_name"></el-input>
           </el-form-item>
-          <el-form-item label="机构logo"
+          <el-form-item label="课程图片"
                         prop="org_logo">
             <el-upload list-type="picture-card"
                        ref="upload"
                        class="avatar-uploader"
-                       action="/api/util/upload"
+                       action="/api/util/uploadImage"
                        :show-file-list="false"
                        :on-success="handleAvatarSuccess">
               <img v-if="form.org_logo"
@@ -25,7 +25,7 @@
                  class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="机构分类"
+          <el-form-item label="所属机构"
                         prop="org_type">
             <el-select v-model="form.org_type"
                        placeholder="请选择机构分类">
@@ -35,38 +35,19 @@
                          :value="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="机构标签"
+           <el-form-item label="所属类型"
+                        prop="org_type">
+            <el-select v-model="form.org_type"
+                       placeholder="请选择机构分类">
+              <el-option v-for="item in typeList"
+                         :key="item.id"
+                         :label="item.type_name"
+                         :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="课程视频"
                         prop="org_tag">
             <el-input v-model="form.org_tag"></el-input>
-          </el-form-item>
-
-          <el-form-item label="营业时间"
-                        prop="org_businessHours">
-            <el-input v-model="form.org_businessHours"></el-input>
-          </el-form-item>
-          <el-form-item label="联系人"
-                        prop="org_manager">
-            <el-input v-model="form.org_manager"></el-input>
-          </el-form-item>
-          <el-form-item label="联系方式"
-                        prop="org_phone">
-            <el-input v-model="form.org_phone"></el-input>
-          </el-form-item>
-
-          <el-form-item label="经纬度">
-            <el-input @focus="dialogVisible = true"
-                      suffix-icon="el-icon-location"
-                      v-model="position"
-                      placeholder="机构经纬度">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="联系地址"
-                        prop="org_address">
-            <el-input v-model="form.org_address"></el-input>
-          </el-form-item>
-          <el-form-item label="机构评分"
-                        prop="org_rate">
-            <el-rate v-model="form.org_rate"></el-rate>
           </el-form-item>
           <el-form-item label="是否推荐"
                         prop="org_isHot">
@@ -75,12 +56,11 @@
               <el-radio :label=0>否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="机构介绍"
-                        prop="org_desc">
-            <!-- <WechatEdit @getContent="getContent"
-                        v-model="form.org_desc" /> -->
-                        <el-input v-model="form.org_desc" type="textarea"/>
+          <el-form-item label="课程简介"
+                        prop="org_businessHours">
+            <el-input v-model="form.org_businessHours"  type="textarea" rows="5"></el-input>
           </el-form-item>
+         
           <el-form-item>
             <el-button type="primary"
                        @click="onSubmit">保存</el-button>
