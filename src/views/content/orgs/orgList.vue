@@ -1,10 +1,10 @@
 <template>
   <div class="types">
-    <ResList tableId='0104' noEdit noAdd ref="orgList">
+    <ResList tableId="0104" noEdit noAdd ref="orgList">
       <span slot="toolBar">
         <el-button icon="el-icon-circle-plus-outline" type="success" @click="addItem">新增</el-button>
       </span>
-        <el-table-column slot="operate" fixed="right" label="操作" width="200" align="center">
+      <el-table-column slot="operate" fixed="right" label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button-group size="mini">
             <el-button @click="uploadTZ(scope.row)" size="mini" type="primary">图片</el-button>
@@ -16,47 +16,49 @@
       <template slot="org_img" slot-scope="scope">
         <img width="200" height="100" :src="scope.row.org_img" />
       </template>
-    
-       <template slot="org_isHot"
-                slot-scope="scope">
-       <el-tag v-if="scope.row.org_isHot === 1" type="danger">是</el-tag>
-       <el-tag v-else type="info">否</el-tag>
+
+      <template slot="org_isHot" slot-scope="scope">
+        <el-tag v-if="scope.row.org_isHot === 1" type="success">是</el-tag>
+        <el-tag v-else type="danger">否</el-tag>
       </template>
     </ResList>
-    <uploadImg :dialogState="dialogState"/>
+    <uploadImg :dialogState="dialogState" />
   </div>
 </template>
 
 <script>
-import uploadImg from './uploadImg'
+import uploadImg from "./uploadImg"
 
 export default {
-  components:{
-    uploadImg
+  components: {
+    uploadImg,
   },
   data() {
     return {
       dialogShow: {
-        show: false
+        show: false,
       },
       dialogState: {
         row: {},
-        show: false
+        show: false,
       },
-    };
+    }
   },
-  methods:{
-     addItem() {
-      this.$router.push({ name: "orgs", query: { type: "add",tableId: '0108' } });
+  methods: {
+    addItem() {
+      this.$router.push({
+        name: "orgs",
+        query: { type: "add", tableId: "0108" },
+      })
     },
     // 上传图片
     uploadTZ(row) {
       this.dialogState.row = row
       this.dialogState.show = true
     },
-    handleEdit(row){
-      this.$router.push({ name: "orgs", query: { type: "edit",id: row.id } });
-    }
-  }
+    handleEdit(row) {
+      this.$router.push({ name: "orgs", query: { type: "edit", id: row.id } })
+    },
+  },
 }
 </script>
