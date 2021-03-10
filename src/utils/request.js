@@ -4,6 +4,8 @@ import store from '../store'
 import { getToken } from '@/utils/auth'
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? '/api' : 'http://www.letonglexue.com/api'
+// const BASE_URL =  'http://www.letonglexue.com/api'
+
 // 创建axios实例
 const request = axios.create({
   // baseURL: 'https://easy-mock.com/mock/5baa16736d85f81e16ad4858/cms',

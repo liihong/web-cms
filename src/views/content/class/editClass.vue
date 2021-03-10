@@ -20,7 +20,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="课程视频" prop="org_logo">
+          <el-form-item label="课程视频" prop="isUpload">
             <el-radio-group v-model="isUpload">
               <el-radio :label="1">上传</el-radio>
               <el-radio :label="0">输入地址</el-radio>
@@ -35,6 +35,7 @@
               :auto-upload="false"
               :on-success="handleVideoSuccess"
               :before-upload="beforeUploadVideo"
+              :on-change="videoChange"
               :on-progress="uploadVideoProcess"
             >
               <video
@@ -68,9 +69,10 @@
           </el-form-item>
           <el-form-item label="是否推荐" prop="class_isHot">
             <el-radio-group v-model="form.class_isHot">
-              <el-radio :label="1">是</el-radio>
-              <el-radio :label="0">否</el-radio>
+              <el-radio label="1" >是</el-radio>
+              <el-radio label="0" >否</el-radio>
             </el-radio-group>
+            {{form.class_isHot}}
           </el-form-item>
           <el-form-item label="课程简介" prop="class_desc">
             <el-input v-model="form.class_desc" type="textarea" rows="5"></el-input>
@@ -107,6 +109,7 @@ export default {
       map: {},
       orgList: [],
       isUpload: 1,
+      uploadVideoSucess: false,
       videoFlag: false,
       videoUploadPercent: 0,
       form: {
@@ -176,14 +179,13 @@ export default {
       this.videoFlag = true
       this.videoUploadPercent = file.percentage.toFixed(0) * 1
     },
+    videoChange(){
+      this.uploadVideoSucess = true
+    },
     getContent(info) {
       this.form.org_desc = info
     },
-    onSubmit() {
-      this.$refs.upload.submit()
-      
-      this.$refs.uploadVideo.submit()
-
+    saveData(){
       setTimeout(()=>{
         this.$refs["form"].validate((valid) => {
         if (valid) {
@@ -205,7 +207,14 @@ export default {
         }
       })
       },500)
-     
+    },
+    onSubmit() {
+      this.$refs.upload.submit()
+      if(this.uploadVideoSucess) {
+        this.$refs.uploadVideo.submit()
+      }else{
+        this.saveData()
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -213,11 +222,13 @@ export default {
     handleAvatarSuccess(response) {
       this.form.class_img = response.data.path
       this.$set(this.form, "class_img", response.data.path)
-      console.log(this.form.org_logo)
     },
     handleVideoSuccess(response) {
       this.form.class_video = response.data.path
       this.$set(this.form, "class_video", response.data.path)
+      if(this.uploadVideoSucess) {
+        this.saveData()
+      }
     },
     // 编辑数据回填
     getFormData() {
