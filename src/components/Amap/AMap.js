@@ -6,7 +6,7 @@ export default function MapLoader () {
       var script = document.createElement('script')
       script.type = 'text/javascript'
       script.async = true
-      script.src = 'http://webapi.amap.com/maps?v=2.0&callback=initAMap&key=91a6dd05aaa68c6bd45bd8dda82efef3'
+      script.src = 'http://webapi.amap.com/maps?v=2.0&callback=initAMap&key=91a6dd05aaa68c6bd45bd8dda82efef3&plugin=AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch'
       script.onerror = reject
       var uiscript = document.createElement('script')
       uiscript.type = 'text/javascript'

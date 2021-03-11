@@ -97,7 +97,7 @@ module.exports = class extends Base {
   async getImgListAction() {
     const orgId = this.get('id');
 
-    const data = await this.model('wechat_images').field('id,img_path url,img_url open_path').where({img_org_id: orgId}).select();
+    const data = await this.model('wechat_images').field('id,img_path open_path,img_url url').where({img_org_id: orgId}).select();
 
     return this.success(data);
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="types">
-    <ResList tableId='0105' noAdd noEdit>
+    <ResList ref="classList" tableId='0105' noAdd noEdit>
         <span slot="toolBar">
         <el-button icon="el-icon-circle-plus-outline" type="success" @click="addItem">新增</el-button>
       </span>
@@ -15,7 +15,7 @@
         <template slot-scope="scope">
           <el-button-group size="mini">
             <el-button size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="primary" @click="$refs.orgList.handleDelete(scope.row)">删除</el-button>
+            <el-button size="mini" type="primary" @click="$refs.classList.handleDelete(scope.row)">删除</el-button>
           </el-button-group>
         </template>
       </el-table-column>

@@ -12,7 +12,7 @@
           <el-form-item label="机构名称" prop="org_name">
             <el-input v-model="form.org_name" placeholder="请选择机构名称"></el-input>
           </el-form-item>
-          <el-form-item label="机构logo" prop="org_logo">
+          <el-form-item label="机构logo" prop="org_img">
             <el-upload
               list-type="picture-card"
               ref="upload"
@@ -20,9 +20,10 @@
               action="/api/util/uploadImage"
               :show-file-list="false"
               :auto-upload="false"
+              :on-change="uploadChange"
               :on-success="handleAvatarSuccess"
             >
-              <img v-if="form.org_logo" :src="form.org_logo" class="avatar" />
+              <img v-if="form.org_logo" :src="form.org_img" class="avatar" style="width:150px;height:150px;" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -112,6 +113,7 @@ export default {
       dialogVisible: false,
       position: "",
       map: {},
+      isUpload:false,
       typeList: [],
       form: {
         org_name: "",
@@ -125,15 +127,9 @@ export default {
         org_phone: "",
         org_isHot: 0,
         org_remark: "",
-        org_status: "",
+        org_status: 1,
       },
       rules: {
-        org_tag: [
-          {
-            required: true,
-            trigger: "blur",
-          },
-        ],
         org_location: [
           { required: true, message: "请选择机构位置", trigger: "blur" },
         ],
@@ -195,10 +191,11 @@ export default {
     getContent(info) {
       this.form.org_desc = info
     },
-    onSubmit() {
-      this.$refs.upload.submit()
-      setTimeout(()=>{
-        this.$refs["form"].validate((valid) => {
+    uploadChange(){
+      this.isUpload = true
+    },
+    saveData(){
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.formType === "edit") {
             orgServices.editOrg(this.form).then((res) => {
@@ -217,16 +214,22 @@ export default {
           }
         }
       })
-      },500)
-      
+    },
+    onSubmit() {
+      this.$refs.upload.submit()
+      if(!this.isUpload){
+        this.saveData()
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
     handleAvatarSuccess(response) {
-      this.form.org_logo = response.data.path
-      this.$set(this.form, "org_logo", response.data.path)
-      console.log(this.form.org_logo)
+      this.form.org_img = response.data.path
+      this.$set(this.form, "org_img", response.data.path)
+      if(this.isUpload){
+        this.saveData()
+      }
     },
     // 编辑数据回填
     getFormData() {

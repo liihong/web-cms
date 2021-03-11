@@ -52,8 +52,8 @@ event:{
       height="70vh"
       style="width: 100%;"
     >
-      <el-table-column type="selection" width="25" align="center"></el-table-column>
-      <el-table-column fixed="left" type="index" width="40" align="center" label="序号">
+      <el-table-column type="selection" width="40" align="center"></el-table-column>
+      <el-table-column fixed="left" type="index" width="50" align="center" label="序号">
         <template slot-scope="scope">
           <span>{{scope.$index+(queryParams.pageNumber - 1) * queryParams.pageSize + 1}}</span>
         </template>
@@ -485,9 +485,32 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.el-table__body-wrapper{
+  overflow-y: overlay;
+  overflow-x:auto;
+  position: relative;
+}
+.el-table--border th.gutter:last-of-type {
+  display: block!important;
+}
 .el-table--striped .el-table__body tr.el-table__row--striped td {
   background: #f5f4f4;
 }
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
+}
+.el-table th.gutter {
+  display: table-cell !important;
+}
+
+.el-table colgroup.gutter {
+  display: table-cell !important;
+}
+
 .el-table .warning-row {
   background: oldlace;
 }

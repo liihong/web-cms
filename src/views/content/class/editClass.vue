@@ -67,12 +67,21 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="所属类型" prop="class_type">
+           <el-select v-model="form.class_type" placeholder="请选择所属类型">
+              <el-option
+                v-for="item in typeList"
+                :key="item.id"
+                :label="item.type_name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="是否推荐" prop="class_isHot">
             <el-radio-group v-model="form.class_isHot">
               <el-radio label="1" >是</el-radio>
               <el-radio label="0" >否</el-radio>
             </el-radio-group>
-            {{form.class_isHot}}
           </el-form-item>
           <el-form-item label="课程简介" prop="class_desc">
             <el-input v-model="form.class_desc" type="textarea" rows="5"></el-input>
@@ -112,6 +121,9 @@ export default {
       uploadVideoSucess: false,
       videoFlag: false,
       videoUploadPercent: 0,
+      typeList:[{
+        id:'',name:''
+      }],
       form: {
         id: "",
         class_name: "",
