@@ -37,12 +37,12 @@
                           prop="shop_img">
               <el-upload ref="upload"
                          class="avatar-uploader"
-                         action="/api/util/upload"
+                         action="/api/util/uploadImage"
                          :show-file-list="false"
                          :on-success="handleAvatarSuccess">
                 <img v-if="form.shop_img"
-                     width="200"
-                     height="200"
+                     width="250"
+                     height="250"
                      :src="form.shop_img"
                      class="avatar" />
                 <i v-else

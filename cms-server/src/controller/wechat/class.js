@@ -54,7 +54,7 @@ module.exports = class extends Base {
       if (typeId && typeId !== '0') {
         whereObj.class_type = typeId;
       }
-      const orgList = await this.model('wechat_class').where(whereObj).page(currentPage, pageSize).countSelect();
+      const orgList = await this.model('wechat_class').where(whereObj).page(currentPage, 1000).countSelect();
       return this.success(orgList);
     } catch (ex) {
       return this.fail();
