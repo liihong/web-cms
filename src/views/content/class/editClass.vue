@@ -13,7 +13,6 @@
               class="avatar-uploader"
               action="/api/util/uploadImage"
               :show-file-list="false"
-              :auto-upload="false"
               :on-success="handleAvatarSuccess"
             >
               <img v-if="form.class_img" :src="form.class_img" class="avatar" />
@@ -32,7 +31,6 @@
               class="avatar-uploader"
               action="/api/util/uploadVideo"
               :show-file-list="false"
-              :auto-upload="false"
               :on-success="handleVideoSuccess"
               :before-upload="beforeUploadVideo"
               :on-change="videoChange"
@@ -68,14 +66,15 @@
             </el-select>
           </el-form-item>
           <el-form-item label="所属类型" prop="class_type">
-           <el-select v-model="form.class_type" placeholder="请选择所属类型">
+             <el-input v-model="form.class_type" ></el-input>
+           <!-- <el-select v-model="form.class_type" placeholder="请选择所属类型">
               <el-option
                 v-for="item in typeList"
                 :key="item.id"
                 :label="item.type_name"
                 :value="item.id"
               ></el-option>
-            </el-select>
+            </el-select> -->
           </el-form-item>
           <el-form-item label="是否推荐" prop="class_isHot">
             <el-radio-group v-model="form.class_isHot">
@@ -166,6 +165,7 @@ export default {
     //上传前回调
     beforeUploadVideo(file) {
       var fileSize = file.size / 1024 / 1024 < 50
+      console.log(file)
       if (
         [
           "video/mp4",
@@ -205,14 +205,14 @@ export default {
             classServices.editClass(this.form).then((res) => {
               if (res.status === 0) {
                 this.$message.success("编辑成功")
-                this.$router.go(-1)
+                this.$router.push({ name: "class", query: { type: "list" } })
               }
             })
           } else {
             classServices.addClass(this.form).then((res) => {
               if (res.status === 0) {
                 this.$message.success("添加成功")
-                this.$router.go(-1)
+                this.$router.push({ name: "class", query: { type: "list" } })
               }
             })
           }
@@ -221,12 +221,12 @@ export default {
       },500)
     },
     onSubmit() {
-      this.$refs.upload.submit()
-      if(this.uploadVideoSucess) {
-        this.$refs.uploadVideo.submit()
-      }else{
+      // this.$refs.upload.submit()
+      // if(this.uploadVideoSucess) {
+      //   this.$refs.uploadVideo.submit()
+      // }else{
         this.saveData()
-      }
+      // }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -236,6 +236,7 @@ export default {
       this.$set(this.form, "class_img", response.data.path)
     },
     handleVideoSuccess(response) {
+      this.videoFlag = false
       this.form.class_video = response.data.path
       this.$set(this.form, "class_video", response.data.path)
       if(this.uploadVideoSucess) {
@@ -253,7 +254,7 @@ export default {
         })
     },
     goCancel() {
-      this.$router.push({ name: "orgs", query: { type: "list" } })
+      this.$router.push({ name: "class", query: { type: "list" } })
     },
   },
   watch: {
