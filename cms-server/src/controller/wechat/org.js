@@ -23,7 +23,7 @@ module.exports = class extends Base {
       if (type !== '0') {
         whereObj.org_type = type;
       }
-      const orgList = await this.model('wechat_orgs').where(whereObj).page(currentPage, pageSize).countSelect();
+      const orgList = await this.model('wechat_orgs').where(whereObj).page(currentPage, pageSize).order('org_order').countSelect();
       return this.success(orgList);
     } catch (ex) {
       return this.fail();
